@@ -22,10 +22,10 @@ class IU_Admin_Page {
 
 	public function register_page() {
 		add_management_page(
-			__( 'Import Users', 'import-users' ),
-			__( 'Import Users', 'import-users' ),
+			__( 'Import Users', 'cl-import-users' ),
+			__( 'Import Users', 'cl-import-users' ),
 			self::CAPABILITY,
-			'import-users',
+			'cl-import-users',
 			array( $this, 'render_page' )
 		);
 	}
@@ -36,7 +36,7 @@ class IU_Admin_Page {
 
 	private function check_request( $expected_action ) {
 		if ( ! current_user_can( self::CAPABILITY ) ) {
-			wp_die( esc_html__( 'You are not allowed to do this.', 'import-users' ) );
+			wp_die( esc_html__( 'You are not allowed to do this.', 'cl-import-users' ) );
 		}
 		check_admin_referer( self::NONCE_ACTION );
 	}
@@ -60,21 +60,21 @@ class IU_Admin_Page {
 		$this->check_request( 'iu_import_csv' );
 
 		if ( empty( $_FILES['iu_csv_file']['tmp_name'] ) || UPLOAD_ERR_OK !== $_FILES['iu_csv_file']['error'] ) {
-			$this->redirect_with_notice( 'error', __( 'Please choose a CSV file to upload.', 'import-users' ) );
+			$this->redirect_with_notice( 'error', __( 'Please choose a CSV file to upload.', 'cl-import-users' ) );
 		}
 
 		$file = $_FILES['iu_csv_file'];
 		$filetype = wp_check_filetype( $file['name'], array( 'csv' => 'text/csv' ) );
 
 		if ( 'csv' !== strtolower( pathinfo( $file['name'], PATHINFO_EXTENSION ) ) ) {
-			$this->redirect_with_notice( 'error', __( 'Please upload a .csv file.', 'import-users' ) );
+			$this->redirect_with_notice( 'error', __( 'Please upload a .csv file.', 'cl-import-users' ) );
 		}
 
 		$result = IU_CSV::import_from_path( $file['tmp_name'] );
 
 		$message = sprintf(
 			/* translators: 1: imported count, 2: duplicate count, 3: invalid count */
-			__( 'Import complete: %1$d record(s) imported, %2$d skipped as duplicate, %3$d invalid.', 'import-users' ),
+			__( 'Import complete: %1$d record(s) imported, %2$d skipped as duplicate, %3$d invalid.', 'cl-import-users' ),
 			$result['imported'],
 			$result['skipped_duplicate'],
 			$result['invalid']
@@ -93,12 +93,12 @@ class IU_Admin_Page {
 		$result = IU_Processor::process_all();
 
 		if ( 0 === $result['remaining_unprocessed'] ) {
-			$message = __( 'All records processed successfully.', 'import-users' );
+			$message = __( 'All records processed successfully.', 'cl-import-users' );
 			$type    = 'success';
 		} else {
 			$message = sprintf(
 				/* translators: 1: succeeded count, 2: failed count */
-				__( 'Processed %1$d record(s) successfully, %2$d failed verification and were left for retry.', 'import-users' ),
+				__( 'Processed %1$d record(s) successfully, %2$d failed verification and were left for retry.', 'cl-import-users' ),
 				$result['succeeded'],
 				$result['failed']
 			);
@@ -115,7 +115,7 @@ class IU_Admin_Page {
 
 		$message = sprintf(
 			/* translators: 1: sent count, 2: failed count */
-			__( 'Welcome emails: %1$d sent, %2$d failed.', 'import-users' ),
+			__( 'Welcome emails: %1$d sent, %2$d failed.', 'cl-import-users' ),
 			$result['sent'],
 			$result['failed']
 		);
@@ -166,14 +166,14 @@ class IU_Admin_Page {
 		$counts = $this->get_counts();
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Import Users', 'import-users' ); ?></h1>
+			<h1><?php esc_html_e( 'Import Users', 'cl-import-users' ); ?></h1>
 			<?php $this->render_notice(); ?>
 
 			<p>
 				<?php
 				printf(
 					/* translators: 1-6 are counts */
-					esc_html__( 'Total records: %1$d — Pending: %2$d — Processed: %3$d — Awaiting email: %4$d — Emailed: %5$d — Invalid: %6$d', 'import-users' ),
+					esc_html__( 'Total records: %1$d — Pending: %2$d — Processed: %3$d — Awaiting email: %4$d — Emailed: %5$d — Invalid: %6$d', 'cl-import-users' ),
 					(int) $counts['total'],
 					(int) $counts['pending'],
 					(int) $counts['processed'],
@@ -186,48 +186,48 @@ class IU_Admin_Page {
 
 			<hr />
 
-			<h2><?php esc_html_e( '1. Download Demo CSV', 'import-users' ); ?></h2>
-			<p><?php esc_html_e( 'Download a sample CSV with the expected columns: First name, Last name, Email, Course IDs, Enrollment date.', 'import-users' ); ?></p>
+			<h2><?php esc_html_e( '1. Download Demo CSV', 'cl-import-users' ); ?></h2>
+			<p><?php esc_html_e( 'Download a sample CSV with the expected columns: First name, Last name, Email, Course IDs, Enrollment date.', 'cl-import-users' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( self::NONCE_ACTION ); ?>
 				<input type="hidden" name="action" value="iu_download_demo_csv" />
-				<?php submit_button( __( 'Download Demo CSV', 'import-users' ), 'secondary', 'submit', false ); ?>
+				<?php submit_button( __( 'Download Demo CSV', 'cl-import-users' ), 'secondary', 'submit', false ); ?>
 			</form>
 
 			<hr />
 
-			<h2><?php esc_html_e( '2. Import CSV', 'import-users' ); ?></h2>
-			<p><?php esc_html_e( 'Upload a CSV of students to queue for import. Duplicate email+course rows are skipped automatically.', 'import-users' ); ?></p>
+			<h2><?php esc_html_e( '2. Import CSV', 'cl-import-users' ); ?></h2>
+			<p><?php esc_html_e( 'Upload a CSV of students to queue for import. Duplicate email+course rows are skipped automatically.', 'cl-import-users' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" enctype="multipart/form-data">
 				<?php wp_nonce_field( self::NONCE_ACTION ); ?>
 				<input type="hidden" name="action" value="iu_import_csv" />
 				<input type="file" name="iu_csv_file" accept=".csv,text/csv" required />
-				<?php submit_button( __( 'Import CSV', 'import-users' ), 'primary', 'submit', false ); ?>
+				<?php submit_button( __( 'Import CSV', 'cl-import-users' ), 'primary', 'submit', false ); ?>
 			</form>
 
 			<hr />
 
-			<h2><?php esc_html_e( '3. Process Database', 'import-users' ); ?></h2>
-			<p><?php esc_html_e( 'Create/reuse WordPress users for each pending record and enroll them into their courses (including bundle child courses).', 'import-users' ); ?></p>
+			<h2><?php esc_html_e( '3. Process Database', 'cl-import-users' ); ?></h2>
+			<p><?php esc_html_e( 'Create/reuse WordPress users for each pending record and enroll them into their courses (including bundle child courses).', 'cl-import-users' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( self::NONCE_ACTION ); ?>
 				<input type="hidden" name="action" value="iu_process_database" />
-				<?php submit_button( __( 'Process Database', 'import-users' ), 'primary', 'submit', false, $counts['pending'] > 0 ? array() : array( 'disabled' => 'disabled' ) ); ?>
+				<?php submit_button( __( 'Process Database', 'cl-import-users' ), 'primary', 'submit', false, $counts['pending'] > 0 ? array() : array( 'disabled' => 'disabled' ) ); ?>
 			</form>
 
 			<hr />
 
-			<h2><?php esc_html_e( '4. Send Welcome Emails', 'import-users' ); ?></h2>
-			<p><?php esc_html_e( 'Send the set-password welcome email to processed records that have not been emailed yet.', 'import-users' ); ?></p>
+			<h2><?php esc_html_e( '4. Send Welcome Emails', 'cl-import-users' ); ?></h2>
+			<p><?php esc_html_e( 'Send the set-password welcome email to processed records that have not been emailed yet.', 'cl-import-users' ); ?></p>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<?php wp_nonce_field( self::NONCE_ACTION ); ?>
 				<input type="hidden" name="action" value="iu_send_welcome_emails" />
-				<?php submit_button( __( 'Send Welcome Emails', 'import-users' ), 'primary', 'submit', false, $counts['awaiting_email'] > 0 ? array() : array( 'disabled' => 'disabled' ) ); ?>
+				<?php submit_button( __( 'Send Welcome Emails', 'cl-import-users' ), 'primary', 'submit', false, $counts['awaiting_email'] > 0 ? array() : array( 'disabled' => 'disabled' ) ); ?>
 			</form>
 
 			<hr />
 
-			<h2><?php esc_html_e( 'Recent Records', 'import-users' ); ?></h2>
+			<h2><?php esc_html_e( 'Recent Records', 'cl-import-users' ); ?></h2>
 			<?php $this->render_records_table(); ?>
 		</div>
 		<?php
@@ -239,20 +239,20 @@ class IU_Admin_Page {
 		$records = $wpdb->get_results( "SELECT * FROM {$table} ORDER BY id DESC LIMIT 50", ARRAY_A );
 
 		if ( empty( $records ) ) {
-			echo '<p>' . esc_html__( 'No records yet.', 'import-users' ) . '</p>';
+			echo '<p>' . esc_html__( 'No records yet.', 'cl-import-users' ) . '</p>';
 			return;
 		}
 		?>
 		<table class="widefat striped">
 			<thead>
 				<tr>
-					<th><?php esc_html_e( 'Name', 'import-users' ); ?></th>
-					<th><?php esc_html_e( 'Email', 'import-users' ); ?></th>
-					<th><?php esc_html_e( 'Course IDs', 'import-users' ); ?></th>
-					<th><?php esc_html_e( 'Status', 'import-users' ); ?></th>
-					<th><?php esc_html_e( 'Processed', 'import-users' ); ?></th>
-					<th><?php esc_html_e( 'Messaged', 'import-users' ); ?></th>
-					<th><?php esc_html_e( 'Error', 'import-users' ); ?></th>
+					<th><?php esc_html_e( 'Name', 'cl-import-users' ); ?></th>
+					<th><?php esc_html_e( 'Email', 'cl-import-users' ); ?></th>
+					<th><?php esc_html_e( 'Course IDs', 'cl-import-users' ); ?></th>
+					<th><?php esc_html_e( 'Status', 'cl-import-users' ); ?></th>
+					<th><?php esc_html_e( 'Processed', 'cl-import-users' ); ?></th>
+					<th><?php esc_html_e( 'Messaged', 'cl-import-users' ); ?></th>
+					<th><?php esc_html_e( 'Error', 'cl-import-users' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>

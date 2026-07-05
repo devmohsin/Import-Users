@@ -56,7 +56,7 @@ class IU_Processor {
 		}
 
 		if ( ! self::verify_user( $user['user_id'] ) ) {
-			self::mark_error( $record['id'], __( 'User existence/role could not be verified.', 'import-users' ), $user['user_id'] );
+			self::mark_error( $record['id'], __( 'User existence/role could not be verified.', 'cl-import-users' ), $user['user_id'] );
 			return false;
 		}
 
@@ -93,7 +93,7 @@ class IU_Processor {
 			return array(
 				'user_id' => 0,
 				'created' => false,
-				'error'   => __( 'Invalid email address.', 'import-users' ),
+				'error'   => __( 'Invalid email address.', 'cl-import-users' ),
 			);
 		}
 
@@ -197,7 +197,7 @@ class IU_Processor {
 		if ( $parent_bundle_id ) {
 			$reason = sprintf(
 				/* translators: 1: course ID, 2: course title, 3: bundle course ID */
-				__( 'User was granted access to course ID %1$d ("%2$s") as a child of bundle course ID %3$d, from the spreadsheet import.', 'import-users' ),
+				__( 'User was granted access to course ID %1$d ("%2$s") as a child of bundle course ID %3$d, from the spreadsheet import.', 'cl-import-users' ),
 				$course_id,
 				$course_title,
 				$parent_bundle_id
@@ -205,7 +205,7 @@ class IU_Processor {
 		} else {
 			$reason = sprintf(
 				/* translators: 1: course ID, 2: course title */
-				__( 'User was granted access to course ID %1$d ("%2$s") from the spreadsheet import.', 'import-users' ),
+				__( 'User was granted access to course ID %1$d ("%2$s") from the spreadsheet import.', 'cl-import-users' ),
 				$course_id,
 				$course_title
 			);

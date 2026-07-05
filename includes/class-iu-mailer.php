@@ -44,12 +44,12 @@ class IU_Mailer {
 		$user    = $user_id ? get_user_by( 'id', $user_id ) : get_user_by( 'email', $row['email'] );
 
 		if ( ! $user instanceof WP_User ) {
-			self::mark_failed( $row['id'], __( 'No matching WordPress user found for this record.', 'import-users' ) );
+			self::mark_failed( $row['id'], __( 'No matching WordPress user found for this record.', 'cl-import-users' ) );
 			return false;
 		}
 
 		if ( ! class_exists( '\CodeLinden\TutorCourses\Guest_Checkout' ) ) {
-			self::mark_failed( $row['id'], __( 'CL Tutor Courses guest-checkout class is unavailable.', 'import-users' ) );
+			self::mark_failed( $row['id'], __( 'CL Tutor Courses guest-checkout class is unavailable.', 'cl-import-users' ) );
 			return false;
 		}
 
@@ -72,7 +72,7 @@ class IU_Mailer {
 			return true;
 		}
 
-		self::mark_failed( $row['id'], __( 'wp_mail() reported a failure while sending the welcome email.', 'import-users' ) );
+		self::mark_failed( $row['id'], __( 'wp_mail() reported a failure while sending the welcome email.', 'cl-import-users' ) );
 		return false;
 	}
 

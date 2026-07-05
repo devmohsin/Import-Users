@@ -4,7 +4,7 @@
  * Description: Bulk-import students from CSV, provision their WordPress accounts, enroll them into Tutor LMS courses (including bundles), and send welcome/set-password emails.
  * Version: 1.0.0
  * Author: Mohsin Ghouri
- * Text Domain: import-users
+ * Text Domain: cl-import-users
  * Requires PHP: 7.4
  */
 
@@ -75,7 +75,7 @@ function iu_admin_dependency_notice() {
 		esc_html(
 			sprintf(
 				/* translators: %s: comma-separated list of missing plugin names */
-				__( 'Import Users requires the following plugin(s) to be active: %s. The plugin has been deactivated.', 'import-users' ),
+				__( 'Import Users requires the following plugin(s) to be active: %s. The plugin has been deactivated.', 'cl-import-users' ),
 				implode( ', ', $missing )
 			)
 		)

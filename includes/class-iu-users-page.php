@@ -41,7 +41,7 @@ class IU_Users_Page {
 		$actions['iu_resend_reset_link'] = sprintf(
 			'<a href="%s">%s</a>',
 			esc_url( $url ),
-			esc_html__( 'Send set-password email', 'import-users' )
+			esc_html__( 'Send set-password email', 'cl-import-users' )
 		);
 
 		return $actions;
@@ -49,7 +49,7 @@ class IU_Users_Page {
 
 	public function handle_resend() {
 		if ( ! current_user_can( 'edit_users' ) ) {
-			wp_die( esc_html__( 'You are not allowed to do this.', 'import-users' ) );
+			wp_die( esc_html__( 'You are not allowed to do this.', 'cl-import-users' ) );
 		}
 		check_admin_referer( self::NONCE_ACTION );
 
@@ -57,11 +57,11 @@ class IU_Users_Page {
 		$user    = $user_id ? get_user_by( 'id', $user_id ) : false;
 
 		if ( ! $user instanceof WP_User ) {
-			$this->redirect_with_notice( 'error', __( 'User not found.', 'import-users' ) );
+			$this->redirect_with_notice( 'error', __( 'User not found.', 'cl-import-users' ) );
 		}
 
 		if ( ! class_exists( '\CodeLinden\TutorCourses\Guest_Checkout' ) ) {
-			$this->redirect_with_notice( 'error', __( 'The set-password logic (CL Tutor Courses) is unavailable.', 'import-users' ) );
+			$this->redirect_with_notice( 'error', __( 'The set-password logic (CL Tutor Courses) is unavailable.', 'cl-import-users' ) );
 		}
 
 		update_user_meta( $user->ID, \CodeLinden\TutorCourses\Guest_Checkout::META_PASSWORD_UNVERIFIED, 1 );
@@ -80,13 +80,13 @@ class IU_Users_Page {
 				'success',
 				sprintf(
 					/* translators: %s: user email address */
-					__( 'Set-password email sent to %s.', 'import-users' ),
+					__( 'Set-password email sent to %s.', 'cl-import-users' ),
 					$user->user_email
 				)
 			);
 		}
 
-		$this->redirect_with_notice( 'error', __( 'Failed to send the set-password email.', 'import-users' ) );
+		$this->redirect_with_notice( 'error', __( 'Failed to send the set-password email.', 'cl-import-users' ) );
 	}
 
 	private function redirect_with_notice( $type, $message ) {
@@ -129,10 +129,10 @@ class IU_Users_Page {
 			return;
 		}
 		?>
-		<h2><?php esc_html_e( 'Import Users — Enrollment Log', 'import-users' ); ?></h2>
+		<h2><?php esc_html_e( 'Import Users — Enrollment Log', 'cl-import-users' ); ?></h2>
 		<table class="form-table" role="presentation">
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Granted via CSV import', 'import-users' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Granted via CSV import', 'cl-import-users' ); ?></th>
 				<td>
 					<ul style="margin:0;">
 						<?php foreach ( $log as $entry ) : ?>

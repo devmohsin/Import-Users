@@ -105,7 +105,7 @@ class IU_Enrollment {
 				'ok'      => false,
 				'message' => sprintf(
 					/* translators: %d: course ID */
-					__( 'Course ID %d does not exist.', 'import-users' ),
+					__( 'Course ID %d does not exist.', 'cl-import-users' ),
 					(int) $course_id
 				),
 			);
@@ -114,7 +114,7 @@ class IU_Enrollment {
 		if ( ! self::dependencies_ready() ) {
 			return array(
 				'ok'      => false,
-				'message' => __( 'Tutor LMS / CL Tutor Courses enrollment classes are unavailable.', 'import-users' ),
+				'message' => __( 'Tutor LMS / CL Tutor Courses enrollment classes are unavailable.', 'cl-import-users' ),
 			);
 		}
 
@@ -137,7 +137,7 @@ class IU_Enrollment {
 			'ok'      => false,
 			'message' => sprintf(
 				/* translators: %d: course ID */
-				__( 'Enrollment could not be verified for course ID %d.', 'import-users' ),
+				__( 'Enrollment could not be verified for course ID %d.', 'cl-import-users' ),
 				(int) $course_id
 			),
 		);

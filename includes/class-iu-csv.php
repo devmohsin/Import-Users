@@ -45,7 +45,7 @@ class IU_CSV {
 
 	public static function stream_demo_csv() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You are not allowed to do this.', 'import-users' ) );
+			wp_die( esc_html__( 'You are not allowed to do this.', 'cl-import-users' ) );
 		}
 
 		nocache_headers();
@@ -81,14 +81,14 @@ class IU_CSV {
 
 		$handle = fopen( $tmp_path, 'r' );
 		if ( ! $handle ) {
-			$result['errors'][] = __( 'Could not open the uploaded file.', 'import-users' );
+			$result['errors'][] = __( 'Could not open the uploaded file.', 'cl-import-users' );
 			return $result;
 		}
 
 		$header_row = fgetcsv( $handle );
 		if ( ! $header_row ) {
 			fclose( $handle );
-			$result['errors'][] = __( 'The CSV file is empty.', 'import-users' );
+			$result['errors'][] = __( 'The CSV file is empty.', 'cl-import-users' );
 			return $result;
 		}
 
@@ -99,7 +99,7 @@ class IU_CSV {
 				fclose( $handle );
 				$result['errors'][] = sprintf(
 					/* translators: %s: missing column name */
-					__( 'CSV is missing the required "%s" column.', 'import-users' ),
+					__( 'CSV is missing the required "%s" column.', 'cl-import-users' ),
 					$required_column
 				);
 				return $result;
@@ -141,22 +141,22 @@ class IU_CSV {
 			$row_errors = array();
 
 			if ( '' === $first_name ) {
-				$row_errors[] = __( 'first name is required', 'import-users' );
+				$row_errors[] = __( 'first name is required', 'cl-import-users' );
 			}
 			if ( '' === $last_name ) {
-				$row_errors[] = __( 'last name is required', 'import-users' );
+				$row_errors[] = __( 'last name is required', 'cl-import-users' );
 			}
 			if ( '' === $email ) {
-				$row_errors[] = __( 'email is required', 'import-users' );
+				$row_errors[] = __( 'email is required', 'cl-import-users' );
 			} elseif ( ! is_email( $email ) ) {
-				$row_errors[] = __( 'email is not a valid address', 'import-users' );
+				$row_errors[] = __( 'email is not a valid address', 'cl-import-users' );
 			}
 
 			if ( ! empty( $row_errors ) ) {
 				$result['invalid']++;
 				$message = sprintf(
 					/* translators: 1: line number, 2: comma-separated list of problems */
-					__( 'Row %1$d skipped: %2$s.', 'import-users' ),
+					__( 'Row %1$d skipped: %2$s.', 'cl-import-users' ),
 					$line_number,
 					implode( ', ', $row_errors )
 				);
@@ -184,7 +184,7 @@ class IU_CSV {
 				$result['skipped_duplicate']++;
 				$result['errors'][] = sprintf(
 					/* translators: 1: line number, 2: email address */
-					__( 'Row %1$d skipped: duplicate of an existing import for %2$s with the same course IDs.', 'import-users' ),
+					__( 'Row %1$d skipped: duplicate of an existing import for %2$s with the same course IDs.', 'cl-import-users' ),
 					$line_number,
 					$email
 				);
@@ -212,7 +212,7 @@ class IU_CSV {
 				$result['invalid']++;
 				$result['errors'][] = sprintf(
 					/* translators: 1: line number, 2: database error */
-					__( 'Row %1$d could not be saved: %2$s', 'import-users' ),
+					__( 'Row %1$d could not be saved: %2$s', 'cl-import-users' ),
 					$line_number,
 					$wpdb->last_error
 				);
