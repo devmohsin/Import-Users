@@ -25,13 +25,3 @@ This plugin deliberately reuses existing logic from those two plugins rather tha
 
 - **Student role**: neither Tutor LMS nor CL Tutor Courses register a dedicated "student" role. Tutor LMS marks students purely via the `_is_tutor_student` user meta flag (set automatically as a side effect of enrollment). New users created by this plugin get the site's normal default new-user role (`get_option('default_role')`, filterable via `iu_student_role`) — the same as every other real student account on the site.
 - **Bundle children**: resolved directly from `Bundle_Utils::get_bundled_course_ids()` rather than relying solely on CL Tutor's `tutor_after_enrolled` hook chain. That hook resolves option-tiered bundles' children via WooCommerce order line items, which don't exist for an admin/CSV-granted enrollment — it would silently grant nothing for bundles configured with purchase options. Reading the flat meta directly works correctly for both simple and option-based bundles.
-
-## Testing
-
-`tests/run.php` is a single-file integration test (same pattern as `cl-tutor-courses/tests/run.php`) that boots real WordPress and exercises the actual Tutor LMS / CL Tutor Courses classes against a live database, self-cleaning its fixtures on every run.
-
-```
-php wp-content/plugins/import-users/tests/run.php
-```
-
-or, as a logged-in administrator, visit `/wp-content/plugins/import-users/tests/run.php` in the browser.
