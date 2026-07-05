@@ -11,6 +11,7 @@ class IU_Admin_Page {
 
 	const CAPABILITY = 'manage_options';
 	const NONCE_ACTION = 'iu_admin_action';
+	const MENU_SLUG = 'cl-import-users';
 
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_page' ) );
@@ -25,13 +26,13 @@ class IU_Admin_Page {
 			__( 'Import Users', 'cl-import-users' ),
 			__( 'Import Users', 'cl-import-users' ),
 			self::CAPABILITY,
-			'cl-import-users',
+			self::MENU_SLUG,
 			array( $this, 'render_page' )
 		);
 	}
 
 	private function page_url() {
-		return admin_url( 'tools.php?page=import-users' );
+		return admin_url( 'tools.php?page=' . self::MENU_SLUG );
 	}
 
 	private function check_request( $expected_action ) {
